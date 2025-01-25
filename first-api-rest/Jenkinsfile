@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven'
+    }
+    
     environment {
         DOCKER_IMAGE = 'fquisiguina/tallergeneral' // Reemplaza con tu usuario e imagen
         DOCKER_CREDENTIALS = 'dockerhub' // ID de las credenciales en Jenkins
