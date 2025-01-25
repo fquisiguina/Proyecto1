@@ -39,7 +39,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_IMAGE:latest .'
+                    //sh 'docker build -t $DOCKER_IMAGE:latest .'
+                    // Usa el export temporal dentro de la misma sesión
+                    sh 'export PATH=$PATH:/usr/local/bin && docker build -t $DOCKER_IMAGE:latest .'
+
                 }
             }
         }
@@ -48,6 +51,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
+                        export PATH=$PATH:/usr/local/bin
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                         docker push $DOCKER_IMAGE:latest
                     """
