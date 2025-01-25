@@ -20,7 +20,9 @@ pipeline {
         stage('Build Maven') {
             steps {
                 script {
-                    sh 'mvn clean install'
+                    dir('first-api-rest') { // Cambia "first-api-rest" a la carpeta donde está el POM
+                        sh 'mvn clean install'
+                    }
                 }
             }
         }
